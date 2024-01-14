@@ -4,6 +4,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings import OllamaEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain.chains import RetrievalQA
+from pipetools import pipe
 
 OLLAMA_HOST = 'http://192.168.7.232:11434'
 OLLAMA_MODEL = 'llama2'
@@ -17,6 +18,9 @@ def simple_prompt():
     print(result)
 
 
+print_length = pipe | len | str
+
+
 def document_prompt():
     print("Loading gutenberg text")
     loader = WebBaseLoader("https://www.gutenberg.org/files/1727/1727-h/1727-h.htm")
@@ -25,7 +29,7 @@ def document_prompt():
     print("Splitting text")
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=0)
     all_splits = text_splitter.split_documents(data)
-    print("Number of splits: " + str(len(all_splits)))
+    print("Number of splits: " + print_length(all_splits))
 
     print("Setting up vector store")
     vectorstore = Chroma.from_documents(documents=all_splits, embedding=oembed)
@@ -33,7 +37,7 @@ def document_prompt():
     print("Doing vectorstore similarity search")
     question = "Who is Neleus and who is in Neleus' family?"
     docs = vectorstore.similarity_search(question)
-    print("Number of Docs: " + str(len(docs)))
+    print("Number of Docs: " + print_length(docs))
 
     print("Using vectorstore for llm query")
     qachain = RetrievalQA.from_chain_type(ollama, retriever=vectorstore.as_retriever())
