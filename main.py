@@ -25,6 +25,7 @@ def document_prompt():
     print("Splitting text")
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=0)
     all_splits = text_splitter.split_documents(data)
+    print("Number of splits: " + str(len(all_splits)))
 
     print("Setting up vector store")
     vectorstore = Chroma.from_documents(documents=all_splits, embedding=oembed)
@@ -32,7 +33,7 @@ def document_prompt():
     print("Doing vectorstore similarity search")
     question = "Who is Neleus and who is in Neleus' family?"
     docs = vectorstore.similarity_search(question)
-    print("Number of Docs: " + len(docs))
+    print("Number of Docs: " + str(len(docs)))
 
     print("Using vectorstore for llm query")
     qachain = RetrievalQA.from_chain_type(ollama, retriever=vectorstore.as_retriever())
