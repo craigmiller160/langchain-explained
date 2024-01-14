@@ -3,14 +3,21 @@ version: '3.8'
 services:
   ollama:
     image: ollama/ollama:latest
-#    platform: linux/amd64
     container_name: ollama
     ports:
       - '11434:11434'
+    volumes:
+      - './ollama:/root/.ollama'
+    devices:
+      #- /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/dri:/dev/dri
     deploy:
       resources:
+        reservations:
+          devices:
+            - driver: amd
+              capabilities:
+                - gpu
         limits:
-          cpus: 8
+          cpus: '14'
           memory: 16G
-#    volumes:
-#      - './ollama:/root/.ollama'
