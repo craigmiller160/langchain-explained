@@ -4,20 +4,16 @@ services:
   ollama:
     image: ollama/ollama:latest
     container_name: ollama
+    privileged: true
     ports:
       - '11434:11434'
     volumes:
       - './ollama:/root/.ollama'
+      - '/dev/dri:/dev/dri'
     devices:
-      #- /dev/dri/renderD128:/dev/dri/renderD128
       - /dev/dri:/dev/dri
     deploy:
       resources:
-        reservations:
-          devices:
-            - driver: amd
-              capabilities:
-                - gpu
         limits:
           cpus: '14'
           memory: 16G
