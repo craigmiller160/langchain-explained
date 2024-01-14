@@ -2,7 +2,7 @@ from langchain_community.llms import Ollama
 from langchain.document_loaders import WebBaseLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings import OllamaEmbeddings
-from langchain.vectorstores import Chroma
+from langchain_community.vectorstores import Chroma
 from langchain.chains import RetrievalQA
 
 # TODO maybe need: pip install GPT4All chromadb
