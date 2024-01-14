@@ -6,6 +6,7 @@ from langchain_community.vectorstores import Chroma
 from langchain.chains import RetrievalQA
 from pipetools import pipe
 import os.path
+import sys
 
 OLLAMA_HOST = 'http://192.168.7.232:11434'
 OLLAMA_MODEL = 'llama2'
@@ -34,7 +35,8 @@ def download_and_split_text():
     return text_splitter.split_documents(data)
 
 
-def add_documents_to_chroma(docs, num_to_add):
+def add_documents_to_chroma(num_to_add):
+    docs = download_and_split_text()
     existing_count = 0
     if os.path.exists(DOC_COUNT_FILE):
         with open(DOC_COUNT_FILE) as file:
@@ -45,6 +47,11 @@ def add_documents_to_chroma(docs, num_to_add):
 
     with open(DOC_COUNT_FILE, 'w') as file:
         file.write(str(existing_count + num_to_add))
+
+
+def get_data():
+    data = chroma.get()
+    print(data)
 
 
 def document_prompt():
@@ -71,5 +78,18 @@ def document_prompt():
     print(result)
 
 
-docs = download_and_split_text()
-add_documents_to_chroma(docs, 1)
+# docs = download_and_split_text()
+# add_documents_to_chroma(docs, 1)
+
+if len(sys.argv) == 1:
+    raise Exception('Must supply a command')
+
+if sys.argv[1] == 'add':
+    if len(sys.argv) == 2:
+        raise Exception('Must specify the number of additional documents to add')
+
+    add_documents_to_chroma(int(sys.argv[2]))
+elif sys.argv[1] == 'get':
+    get_data()
+else:
+    raise Exception('Unsupported command')
