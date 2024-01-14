@@ -15,7 +15,8 @@ oembed = OllamaEmbeddings(base_url=OLLAMA_HOST, model=OLLAMA_MODEL)
 
 
 def simple_prompt():
-    print(ollama('Why is the sky blue?'))
+    result = ollama('Why is the sky blue?')
+    print(result)
 
 
 def document_prompt():
@@ -31,7 +32,8 @@ def document_prompt():
     docs = vectorstore.similarity_search(question)
 
     qachain = RetrievalQA.from_chain_type(ollama, retriever=vectorstore.as_retriever())
-    qachain({"query": question})
+    result = qachain({"query": question})
+    print(result)
 
 
 simple_prompt()
