@@ -11,6 +11,7 @@ OLLAMA_MODEL = 'llama2'
 
 ollama = Ollama(base_url=OLLAMA_HOST, model=OLLAMA_MODEL)
 oembed = OllamaEmbeddings(base_url=OLLAMA_HOST, model=OLLAMA_MODEL)
+chroma = Chroma(persist_directory='./chromadb', embedding_function=oembed)
 
 
 def simple_prompt():
@@ -19,6 +20,18 @@ def simple_prompt():
 
 
 print_length = pipe | len | str
+
+
+def download_and_split_text():
+    loader = WebBaseLoader("https://www.gutenberg.org/files/1727/1727-h/1727-h.htm")
+    data = loader.load()
+
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=0)
+    return text_splitter.split_documents(data)
+
+
+def add_to_chroma(docs):
+    chroma.add_documents(docs)
 
 
 def document_prompt():
@@ -45,4 +58,5 @@ def document_prompt():
     print(result)
 
 
-simple_prompt()
+splits = download_and_split_text()
+add_to_chroma([splits[0]])
