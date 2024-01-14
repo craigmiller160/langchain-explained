@@ -43,8 +43,8 @@ def add_documents_to_chroma(docs, num_to_add):
     docs_to_add = docs[existing_count:existing_count + num_to_add]
     chroma.add_documents(docs_to_add)
 
-    with open(DOC_COUNT_FILE) as file:
-        file.write(existing_count + num_to_add)
+    with open(DOC_COUNT_FILE, 'w') as file:
+        file.write(str(existing_count + num_to_add))
 
 
 def document_prompt():
