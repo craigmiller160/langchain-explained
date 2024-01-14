@@ -36,4 +36,4 @@ def document_prompt():
     print(result)
 
 
-simple_prompt()
+document_prompt()
