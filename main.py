@@ -1,7 +1,7 @@
 from langchain_community.llms import Ollama
-from langchain.document_loaders import WebBaseLoader
+from langchain_community.document_loaders import WebBaseLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.embeddings import OllamaEmbeddings
+from langchain_community.embeddings import OllamaEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain.chains import RetrievalQA
 from pipetools import pipe
@@ -45,4 +45,4 @@ def document_prompt():
     print(result)
 
 
-document_prompt()
+simple_prompt()
