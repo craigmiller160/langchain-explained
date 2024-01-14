@@ -37,6 +37,7 @@ def download_and_split_text():
 
 def add_documents_to_chroma(num_to_add):
     docs = download_and_split_text()
+    print(f'Total Documents: {string_length(docs)}')
     existing_count = 0
     if os.path.exists(DOC_COUNT_FILE):
         with open(DOC_COUNT_FILE) as file:
@@ -51,7 +52,8 @@ def add_documents_to_chroma(num_to_add):
 
 def get_data():
     data = chroma.get()
-    print(data)
+    # print(data.documents)
+    print(f"Total Documents: {string_length(data['documents'])}")
 
 
 def document_prompt():
