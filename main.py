@@ -7,7 +7,7 @@ from langchain.chains import RetrievalQA
 
 # TODO maybe need: pip install GPT4All chromadb
 
-OLLAMA_HOST = 'http://localhost:11434'
+OLLAMA_HOST = 'http://192.168.7.232:11434'
 OLLAMA_MODEL = 'llama2'
 
 ollama = Ollama(base_url=OLLAMA_HOST, model=OLLAMA_MODEL)
