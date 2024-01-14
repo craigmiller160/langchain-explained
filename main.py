@@ -80,9 +80,6 @@ def document_prompt():
     print(result)
 
 
-# docs = download_and_split_text()
-# add_documents_to_chroma(docs, 1)
-
 if len(sys.argv) == 1:
     raise Exception('Must supply a command')
 
