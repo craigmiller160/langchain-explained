@@ -3,6 +3,9 @@ version: '3.5'
 services:
   ollama:
     image: ollama/ollama:latest
+    platform: linux/amd64
     container_name: ollama
     ports:
       - '11434:11434'
+    volumes:
+      - './ollama:/root/.ollama'
